@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faucet ElArdilla</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 50px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Faucet de ElArdilla</h1>
+    <p>Introduce tu dirección de wallet para recibir tus tokens:</p>
+    <input type="text" id="walletAddress" placeholder="Dirección de Wallet">
+    <br>
+    <button onclick="claimTokens()">Reclamar Tokens</button>
+    <p id="response"></p>
+
+    <script>
+        async function claimTokens() {
+            const walletAddress = document.getElementById('walletAddress').value;
+            if (!walletAddress) {
+                document.getElementById('response').innerText = "Por favor, introduce una dirección de wallet válida.";
+                return;
+            }
+            try {
+                // Aquí deberías poner la lógica para enviar tokens a la wallet.
+                const response = await fetch('https://tu-backend-url/claim', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ wallet: walletAddress })
+                });
+
+                const data = await response.json();
+                document.getElementById('response').innerText = data.message || "Tokens reclamados exitosamente.";
+            } catch (error) {
+                document.getElementById('response').innerText = "Error al reclamar tokens: " + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
+
